@@ -1,0 +1,187 @@
+import numpy as np
+X = np.array([
+    [0, 0],
+    [0, 1],
+    [1, 0],
+    [1, 1]
+])
+T = np.array([0, 0, 0, 1])
+eta = 0.1
+weights = np.zeros(2)
+bias = 0
+epochs = 20
+print("--- Training Delta Learning Rule (AND Gate) ---")
+for epoch in range(epochs):
+    total_error = 0
+
+    for x, t in zip(X, T):
+        y = np.dot(weights, x) + bias
+        error = t - y       
+        weights = weights + eta * error * x
+        bias = bias + eta * error
+
+        total_error += error ** 2
+
+    print(f"Epoch {epoch + 1}: MSE = {total_error / len(X):.4f}")
+print("\nFinal Weights:", weights)
+print("Final Bias:", bias)
+print("\nPredictions:")
+for x in X:
+    y = np.dot(weights, x) + bias
+    print(x, "->", round(y, 3))
+
+
+
+print("\n--- Training Hebbian Learning Rule (OR Gate) ---")
+
+
+X_hebb = np.array([
+    [-1, -1],
+    [-1,  1],
+    [ 1, -1],
+    [ 1,  1]
+])
+
+
+T_hebb = np.array([-1, 1, 1, 1])
+
+
+eta_hebb = 1
+
+
+weights_hebb = np.zeros(2)
+bias_hebb = 0
+
+print("Initial Weights:", weights_hebb)
+print("Initial Bias:", bias_hebb)
+
+
+for x, t in zip(X_hebb, T_hebb):
+   
+    net = np.dot(weights_hebb, x) + bias_hebb
+
+    if net >= 0:
+        y = 1
+    else:
+        y = -1
+
+    
+    weights_hebb = weights_hebb + eta_hebb * x * t
+
+    
+    bias_hebb = bias_hebb + eta_hebb * t
+
+    print("\nInput:", x)
+    print("Target:", t)
+    print("Output:", y)
+    print("Updated Weights:", weights_hebb)
+    print("Updated Bias:", bias_hebb)
+
+print("\nFinal Weights:", weights_hebb)
+print("Final Bias:", bias_hebb)
+
+
+print("\nTesting:")
+for x in X_hebb:
+    net = np.dot(weights_hebb, x) + bias_hebb
+
+    if net >= 0:
+        y = 1
+    else:
+        y = -1
+
+    print(x, "->", y)
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+import numpy as np
+X = np.array([
+    [0, 0],
+    [0, 1],
+    [1, 0],
+    [1, 1]
+])
+T = np.array([0, 0, 0, 1])
+eta = 0.1
+weights = np.zeros(2)
+bias = 0
+epochs = 20
+for epoch in range(epochs):
+    total_error = 0
+
+    for x, t in zip(X, T):
+        # Calculate actual output
+        y = np.dot(weights, x) + bias
+        error = t - y
+        weights = weights + eta * error * x
+        bias = bias + eta * error
+        total_error += error ** 2
+
+    print(f"Epoch {epoch + 1}: MSE = {total_error / len(X):.4f}")
+print("\nFinal Weights:", weights)
+print("Final Bias:", bias)
+print("\nPredictions:")
+for x in X:
+    y = np.dot(weights, x) + bias
+    print(x, "->", round(y, 3))
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+import numpy as np
+
+
+X = np.array([
+    [-1, -1],
+    [-1,  1],
+    [ 1, -1],
+    [ 1,  1]
+])
+
+
+T = np.array([-1, 1, 1, 1])
+
+
+eta = 1
+
+
+weights = np.zeros(2)
+bias = 0
+
+print("Initial Weights:", weights)
+print("Initial Bias:", bias)
+
+
+for x, t in zip(X, T):
+   
+    net = np.dot(weights, x) + bias
+
+    if net >= 0:
+        y = 1
+    else:
+        y = -1
+
+    
+    weights = weights + eta * x * t
+
+    
+    bias = bias + eta * t
+
+    print("\nInput:", x)
+    print("Target:", t)
+    print("Output:", y)
+    print("Updated Weights:", weights)
+    print("Updated Bias:", bias)
+
+print("\nFinal Weights:", weights)
+print("Final Bias:", bias)
+
+
+print("\nTesting:")
+for x in X:
+    net = np.dot(weights, x) + bias
+
+    if net >= 0:
+        y = 1
+    else:
+        y = -1
+
+    print(x, "->", y)
