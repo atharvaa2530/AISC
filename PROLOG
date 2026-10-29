@@ -1,0 +1,64 @@
+1) Student Grade
+grade(Marks, 'A') :-
+    Marks >= 75.
+grade(Marks, 'B') :-
+    Marks >= 60,
+    Marks < 75.
+grade(Marks, 'C') :-
+    Marks >= 35,
+    Marks < 60.
+grade(Marks, 'Fail') :-
+    Marks <35.
+Q -	grade(78, G).
+
+2)Checking voting elgibility
+vote(Age, 'Eligible') :-
+    Age >= 18.
+vote(Age, 'Not Eligible') :-
+    Age < 18.
+Q - vote(20, G).
+Q - vote(15, G).
+
+
+3)Finding min/max
+find_max(X, Y, X) :- X >= Y, !.
+find_max(X, Y, Y) :- X < Y.
+find_min(X, Y, X) :- X =< Y, !.
+find_min(X, Y, Y) :- X > Y.
+Q - find_max(100,200,Max).
+Q - find_min(100,200,Min).
+
+4)Find area
+area_rectangle(Length, Breadth, Area) :- Area is Length * Breadth.
+Q - area_rectangle(5, 8, Area).
+
+5)Factorial 
+factorial(0, 1).
+factorial(N, Result) :- N > 0,
+N_minus_1 is N - 1, factorial(N_minus_1,
+SubResult), Result is N * SubResult.
+Q - factorial(5, F).
+
+6)Celsius to Fahrenheit
+celsius_to_fahrenheit(C, F) :- F is C * 9 / 5 + 32.
+Q - celsius_to_fahrenheit(25, F).
+
+7)Checking leap year
+leap(Year) :-
+    0 is Year mod 400.
+leap(Year) :-
+    0 is Year mod 4,
+    Year mod 100 =\= 0.
+Q - leap(2024). 
+
+8) Fact and rules
+% Facts
+likes(john, pizza).
+likes(mary, pizza).
+likes(rahul, burger).
+% Rule
+friends(X, Y) :-
+likes(X, pizza),
+likes(Y, pizza),
+X \= Y.
+Q - friends(john, mary).
