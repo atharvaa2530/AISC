@@ -1,0 +1,78 @@
+import numpy as np
+def triangular_membership(x, a, b, c):
+    if x <= a or x >= c:
+        return 0.0
+    if x == b:
+        return 1.0
+    if x < b:
+        return (x - a) / (b - a)
+    return (c - x) / (c - b)
+def low_temperature(temp):
+    if temp <= 0:
+        return 1.0
+    elif temp >= 20:
+        return 0.0
+    else:
+        return (20 - temp) / 20
+def medium_temperature(temp):
+    return triangular_membership(temp, 10, 20, 30)
+def high_temperature(temp):
+    if temp <= 20:
+        return 0.0
+    elif temp >= 40:
+        return 1.0
+    else:
+        return (temp - 20) / 20
+def slow_fan(speed):
+    if speed <= 0:
+        return 1.0
+    elif speed >= 50:
+        return 0.0
+    else:
+        return (50 - speed) / 50
+def moderate_fan(speed):
+    return triangular_membership(speed, 25, 50, 75)
+def fast_fan(speed):
+    if speed <= 50:
+        return 0.0
+    elif speed >= 100:
+        return 1.0
+    else:
+        return (speed - 50) / 50
+def fuzzy_fan_control(temperature):
+    low = low_temperature(temperature)
+    medium = medium_temperature(temperature)
+    high = high_temperature(temperature)
+    rule_slow = low
+    rule_moderate = medium
+    rule_fast = high
+
+    speeds = np.arange(0, 101, 1)
+    slow_output = np.array([min(rule_slow, slow_fan(speed)) for speed in speeds])
+    moderate_output = np.array([min(rule_moderate, moderate_fan(speed)) for speed in speeds])
+    fast_output = np.array([min(rule_fast, fast_fan(speed)) for speed in speeds])
+    aggregated_output = np.maximum.reduce([slow_output, moderate_output, fast_output])
+    denominator = np.sum(aggregated_output)
+    if denominator == 0:
+        return 0, low, medium, high
+
+    fan_speed = np.sum(speeds * aggregated_output) / denominator
+    return fan_speed, low, medium, high
+temperature = 47
+fan_speed, low, medium, high = fuzzy_fan_control(temperature)
+
+print("=" * 50)
+print("FUZZY LOGIC FAN SPEED CONTROL")
+print("=" * 50)
+print("\nInput Temperature:", temperature, "°C")
+print("\nTemperature Membership Values:")
+print("Low    :", round(low, 3))
+print("Medium :", round(medium, 3))
+print("High   :", round(high, 3))
+print("\nFuzzy Rules:")
+print("Rule 1: IF temperature is LOW THEN fan is SLOW")
+print("Rule 2: IF temperature is MEDIUM THEN fan is MODERATE")
+print("Rule 3: IF temperature is HIGH THEN fan is FAST")
+print("\nFinal Output:")
+print("Fan Speed =", round(fan_speed, 2), "%")
+print("=" * 50)
