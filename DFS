@@ -1,0 +1,32 @@
+def dfs(graph, start, goal):
+    stack = [[start]]
+    visited = set()
+    while stack:
+        path = stack.pop()
+        node = path[-1]
+        if node == goal:
+            return path
+        if node not in visited:
+            visited.add(node)
+            for neighbor in reversed(graph.get(node, [])):
+                if neighbor not in visited:
+                    stack.append(path + [neighbor])
+    return None
+
+graph = {
+    'A': ['B', 'C'],
+    'B': ['D', 'E'],
+    'C': ['F'],
+    'D': [],
+    'E': ['F'],
+    'F': []
+}
+
+start_node_dfs = 'A'
+goal_node_dfs = 'F'
+path_dfs = dfs(graph, start_node_dfs, goal_node_dfs)
+
+if path_dfs:
+    print(f"Path from {start_node_dfs} to {goal_node_dfs} (DFS): {path_dfs}")
+else:
+    print(f"No path found from {start_node_dfs} to {goal_node_dfs} (DFS).")
